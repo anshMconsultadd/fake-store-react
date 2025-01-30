@@ -1,16 +1,9 @@
 import React from 'react';
 
-const ProductCard = ({ product, setProducts }) => {
+const ProductCard = ({ product ,deleteP}) => {
   const { title, price, category, image, rating = { rate: 0, count: 0 } } = product; 
 
-  const handleDelete = async () => {
-    try {
-      await deleteProduct(product.id); 
-      setProducts((prevProducts) => prevProducts.filter((item) => item.id !== product.id)); 
-    } catch (error) {
-      console.error('Error deleting product:', error);
-    }
-  };
+  
   return (
     <div className="bg-white shadow-lg rounded-xl p-4 max-w-sm">
       <img
@@ -24,7 +17,7 @@ const ProductCard = ({ product, setProducts }) => {
       <div className="flex items-center justify-between mt-2">
         <p className="text-yellow-500">{rating?.rate} ★</p> 
         <button
-          onClick={() => handleDelete}
+          onClick={() => deleteP(product.id)}
           className="text-red-500 hover:underline"
         >
           Delete

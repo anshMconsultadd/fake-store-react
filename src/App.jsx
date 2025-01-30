@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AddProductForm from './components/AddProductForm';
 import ProductList from './components/ProductList';
-import { getAllProducts } from './services/api';
+import { getAllProducts,deleteProduct } from './services/api';
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +17,14 @@ const App = () => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);
   };
 
+  const handleDeleteProduct = async (id) => {
+    try {
+      await deleteProduct(id);
+      setProducts((prevProducts) => prevProducts.filter(product => product.id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -27,7 +35,7 @@ const App = () => {
       <h1 className="text-3xl font-bold text-center mb-8">Product Store</h1>
       
      
-      <ProductList products={products} />
+      <ProductList products={products} onDelete={handleDeleteProduct}/>
   
 
       <AddProductForm onAddProduct={handleAddProduct} />
